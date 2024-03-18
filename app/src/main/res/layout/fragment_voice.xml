@@ -15,8 +15,8 @@
         android:id="@+id/tvConnectionStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Connecting..."
+        android:textColor="@android:color/black"
+        android:text="연결중입니다..."
         android:layout_marginTop="20dp"/>
 
     <EditText
@@ -24,26 +24,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
         android:hint="명령어를 입력하세요:"/>
 
 
-    <android.widget.Button
+    <Button
         android:id="@+id/btnSpeak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send"
-        android:textColor="@color/black"
-        android:background="@drawable/buttomcomponent"
+        android:textColor="@android:color/black"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:background="@drawable/rounded_rec"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:fillViewport="true"
         android:padding="20dp">
         <LinearLayout
             android:id="@+id/llMessages"
@@ -51,6 +52,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
     </ScrollView>
-
 
 </LinearLayout>

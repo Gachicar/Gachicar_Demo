@@ -1,9 +1,10 @@
 package com.example.gachicar
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gachicar.databinding.ActivityEditgroupBinding
+import com.example.gachicar.databinding.ActivityEditgroupnameBinding
 import com.example.gachicar.retrofit.EditGroup_Service
 import com.example.gachicar.retrofit.RetrofitConnection
 import com.example.gachicar.retrofit.UpdateGroupDesc
@@ -12,20 +13,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GroupEditActivity : AppCompatActivity(){
-    private lateinit var binding: ActivityEditgroupBinding
+class GroupNameEditActivity : AppCompatActivity(){
+    private lateinit var binding: ActivityEditgroupnameBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
         setTheme(R.style.Theme_GachiCar)
         super.onCreate(savedInstanceState)
-        binding = ActivityEditgroupBinding.inflate(layoutInflater)
+        binding = ActivityEditgroupnameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         intent.getStringExtra("groupName")?.let {
-            binding.etGroupName.setText(it)
+            binding.tvGroupName.setText(it)
         }
         intent.getStringExtra("groupDesc")?.let {
-            binding.etOneLineDesc.setText(it)
+            binding.tvOneLineDesc.setText(it)
         }
         intent.getStringExtra("carNickname")?.let {
             binding.tvCarNickname.text = it
@@ -34,58 +35,47 @@ class GroupEditActivity : AppCompatActivity(){
             binding.tvGroupLeaderName.text = it
         }
 
-        binding.finishEditGroup.setOnClickListener {
+        binding.editGroupName.setOnClickListener {
             patchGroupData()
-
         }
     }
 
     private fun patchGroupData() {
-        val updatedGroupName = binding.etGroupName.text.toString()
-        val updatedGroupDesc = binding.etOneLineDesc.text.toString()
-
+        val updatedGroupName = binding.editGroupName.text.toString()
         val groupNameUpdate = UpdateGroupName(data = updatedGroupName, code = 0, message = "")
-        val groupDescUpdate = UpdateGroupDesc(data = updatedGroupDesc, code = 0, message = "")
 
         val retrofitAPI = RetrofitConnection.getInstance().create(EditGroup_Service::class.java)
 
-        // 그룹 이름 업데이트
+        // 그룹 이름 업데이트 API 호출
         retrofitAPI.patchGroupName(groupNameUpdate).enqueue(object : Callback<UpdateGroupName> {
             override fun onResponse(call: Call<UpdateGroupName>, response: Response<UpdateGroupName>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "그룹 이름 업데이트 성공", Toast.LENGTH_SHORT).show()
+                    // 성공적으로 업데이트됐을 때
+                    Toast.makeText(applicationContext, "그룹 이름이 업데이트 되었습니다.", Toast.LENGTH_SHORT).show()
+
+                    // MainActivity로 이동하며 ProfileFragment로 바로 이동할 것임을 알림
+                    val intent = Intent(this@GroupNameEditActivity, MainActivity::class.java)
+                    intent.putExtra("navigateToProfile", true)
+                    startActivity(intent)
                     finish() // 현재 액티비티 종료
                 } else {
-                    showError("그룹 이름 업데이트 실패")
+                    // 업데이트 실패
+                    Toast.makeText(applicationContext, "그룹 이름 업데이트 실패", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<UpdateGroupName>, t: Throwable) {
-                showError("API 호출 실패: ${t.message}")
-            }
-        })
-
-        // 그룹 설명 업데이트
-        retrofitAPI.patchGroupDesc(groupDescUpdate).enqueue(object : Callback<UpdateGroupDesc> {
-            override fun onResponse(call: Call<UpdateGroupDesc>, response: Response<UpdateGroupDesc>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "그룹 설명 업데이트 성공", Toast.LENGTH_SHORT).show()
-                    finish() // 여기도 성공적으로 업데이트 후 액티비티 종료
-                } else {
-                    showError("그룹 설명 업데이트 실패")
-                }
-            }
-
-            override fun onFailure(call: Call<UpdateGroupDesc>, t: Throwable) {
-                showError("API 호출 실패: ${t.message}")
+                // API 호출 실패
+                Toast.makeText(applicationContext, "API 호출 실패: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+
 
 
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
-
 }

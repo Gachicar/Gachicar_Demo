@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.Dispatchers
@@ -29,14 +30,9 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
     private var reader: BufferedReader? = null
     private lateinit var tvConnectionStatus: TextView
     private lateinit var progressBar: ProgressBar
-    private var speakButton: Button? = null
-    private lateinit var tvServerMs: TextView
-    private lateinit var tvClientMs: TextView
 
     private lateinit var etMessage: EditText
-    private lateinit var tvMessages: TextView
     private lateinit var textToSpeech: TextToSpeech
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +43,6 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
         tvConnectionStatus = view.findViewById(R.id.tvConnectionStatus)
         progressBar = view.findViewById(R.id.progressBar)
         etMessage = view.findViewById(R.id.etMessage)
-        // tvServerMs와 tvClientMs 관련 코드 제거
 
         val btnSpeak = view.findViewById<Button>(R.id.btnSpeak)
         btnSpeak.setOnClickListener {
@@ -67,21 +62,18 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
         GlobalScope.launch(Dispatchers.IO) {
             writer?.println(message)
             GlobalScope.launch(Dispatchers.Main) {
-                // 메시지 추가
                 addMessageToView("나: $message", false)
             }
         }
     }
-
 
     private fun receiveData() {
         try {
             var line: String?
             while (reader!!.readLine().also { line = it } != null) {
                 GlobalScope.launch(Dispatchers.Main) {
-                    // 서버 메시지를 동적으로 추가하고, 읽기
                     addMessageToView(line ?: "", true)
-                    speakOut(line) // 여기서 서버 메시지를 읽어줍니다.
+                    speakOut(line)
                 }
             }
         } catch (e: Exception) {
@@ -112,7 +104,6 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
         GlobalScope.launch(Dispatchers.Main) {
             tvConnectionStatus.text = message
             progressBar.visibility = if (showProgress) View.VISIBLE else View.GONE
-
         }
     }
 
@@ -121,14 +112,12 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
             val messageTextView = TextView(context).apply {
                 text = message
                 textSize = 16f
-                // 조건에 따른 배경 설정
                 background = if (isServerMessage) {
                     context?.getDrawable(R.drawable.rounded_filled_rec)
                 } else {
                     context?.getDrawable(R.drawable.rounded_filled_rec2)
                 }
-                // 텍스트 색상, 패딩 등 추가 설정 가능
-                setTextColor(Color.WHITE)
+                setTextColor(Color.BLACK)
                 setPadding(16, 16, 16, 16)
 
                 layoutParams = LinearLayout.LayoutParams(
@@ -141,9 +130,13 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener {
             }
             val llMessages: LinearLayout = view?.findViewById(R.id.llMessages) ?: return@runOnUiThread
             llMessages.addView(messageTextView)
+
+            val scrollView: ScrollView = view?.findViewById(R.id.scroll) ?: return@runOnUiThread
+            scrollView.post {
+                scrollView.fullScroll(View.FOCUS_DOWN)
+            }
         }
     }
-
 
     private fun speakOut(text: String?) {
         text?.let {

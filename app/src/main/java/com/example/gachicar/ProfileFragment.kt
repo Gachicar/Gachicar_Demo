@@ -1,7 +1,6 @@
 package com.example.gachicar
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +38,18 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getGroupData()
 
+        val retrofitAPI = RetrofitConnection.getInstance().create(GetGroupInfo_Service::class.java)
+        binding.editGroupName.setOnClickListener {
+            val intent = Intent(activity, GroupNameEditActivity::class.java)
+            intent.putExtra("groupName", binding.tvGroupName.text.toString())
+            intent.putExtra("groupDesc", binding.tvOneLineDesc.text.toString())
+            intent.putExtra("carNickname", binding.tvCarNickname.text.toString())
+            intent.putExtra("groupLeaderName", binding.tvGroupLeaderName.text.toString())
+            startActivity(intent)
+        }
 
-        binding.editGroupDetail.setOnClickListener {
-            val intent = Intent(activity, GroupEditActivity::class.java)
+        binding.editGroupDesc.setOnClickListener {
+            val intent = Intent(activity, GroupDescEditActivity::class.java)
             intent.putExtra("groupName", binding.tvGroupName.text.toString())
             intent.putExtra("groupDesc", binding.tvOneLineDesc.text.toString())
             intent.putExtra("carNickname", binding.tvCarNickname.text.toString())

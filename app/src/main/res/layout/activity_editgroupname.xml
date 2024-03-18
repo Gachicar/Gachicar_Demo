@@ -45,37 +45,50 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
-
-                    <!--GetGroupInfo.Data.name-->
-                    <EditText
-                        android:id="@+id/etGroupName"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="그룹 이름"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black" />
-
-                    <!--GetGroupInfo.Data.desc-->
-                    <EditText
-                        android:id="@+id/etOneLineDesc"
-                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="3dp">
+                        <!--GetGroupInfo.Data.name-->
+                        <EditText
+                            android:id="@+id/tvGroupName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="그룹 이름"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+                        <android.widget.Button
+                            android:id="@+id/editGroupName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:background="#99CCFF"
+                            android:text="완료"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="백엔드에서 받은 한줄소개"
-                        android:textSize="16sp"
-                        android:textStyle="normal"
-                        android:textColor="@color/black" />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+                        <!--GetGroupInfo.Data.desc-->
+                        <TextView
+                            android:id="@+id/tvOneLineDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="백엔드에서 받은 한줄소개"
+                            android:textSize="16sp"
+                            android:textStyle="normal"
+                            android:textColor="@color/black"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <android.widget.Button
-                    android:id="@+id/finishEditGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:background="@drawable/buttomcomponent"
-                    android:text="완료"/>
+
             </LinearLayout>
 
 

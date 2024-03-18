@@ -13,8 +13,12 @@ data class GetGroupInfo(
         val name: String
     ) {
         data class Car(
-            val id: Int,
-            val name: String
+            val carName: String,
+            val carNumber: String,
+            val curLoc: String,
+            val driveTime: Int,
+            val latestDate: String,
+            val location: String
         )
 
         data class GroupManager(

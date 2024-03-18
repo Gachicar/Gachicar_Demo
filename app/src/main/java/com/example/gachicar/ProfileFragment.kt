@@ -16,14 +16,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ProfileFragment : Fragment() {
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onResume() {
         super.onResume()
         getGroupData() // 프래그먼트가 다시 화면에 나타날 때마다 데이터를 새로 가져옵니다.
     }
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +38,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getGroupData()
-        val retrofitAPI = RetrofitConnection.getInstance().create(GetGroupInfo_Service::class.java)
+
+
         binding.editGroupDetail.setOnClickListener {
             val intent = Intent(activity, GroupEditActivity::class.java)
             intent.putExtra("groupName", binding.tvGroupName.text.toString())
@@ -53,43 +55,40 @@ class ProfileFragment : Fragment() {
         val retrofitAPI = RetrofitConnection.getInstance().create(GetGroupInfo_Service::class.java)
 
         // API 호출
-        retrofitAPI.getGroupInfo().enqueue(object : Callback<GetGroupInfo> {
-            override fun onResponse(call: Call<GetGroupInfo>, response: Response<GetGroupInfo>) {
-                if (response.isSuccessful && response.body() != null) {
+        retrofitAPI.getGroupInfo()
+            .enqueue(object : Callback<GetGroupInfo> {
+                override fun onResponse(call: Call<GetGroupInfo>, response: Response<GetGroupInfo>) {
+                    if (response.isSuccessful) {
                     // 성공적으로 데이터를 받아온 경우 UI 업데이트
-                    Log.d("ProfileFragment", "Server Response: ${response.body()}")
-                    val groupInfo = response.body()!!
-                    updateUIWithGroupData(groupInfo.data)
+                        response.body()?.let { updateUIWithGroupData(it) }
                 } else {
                     // 데이터를 받아오는데 실패한 경우
-                    showError("그룹 정보를 가져오는데 실패했습니다.")
+                        // API 응답이 실패한 경우 에러 메시지를 출력합니다.
+                        Toast.makeText(requireContext(), "그룹정보 데이터를 가져오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<GetGroupInfo>, t: Throwable) {
                 // API 호출 자체가 실패한 경우
-                showError("API 호출 중 오류가 발생했습니다.")
+                Toast.makeText(requireContext(), "API 호출 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                t.printStackTrace()
             }
         })
     }
 
 
-    private fun updateUIWithGroupData(data: GetGroupInfo.Data) {
+    private fun updateUIWithGroupData(showGroupInfo: GetGroupInfo) {
         // UI 업데이트 로직
-        binding.tvGroupName.text = data.name
-        binding.tvOneLineDesc.text = data.desc
-        binding.tvGroupLeaderName.text = data.groupManager.name
-        binding.tvCarNickname.text = data.car.name
+        val groupName = showGroupInfo.data.name
+        val description = showGroupInfo.data.desc
+        val groupLeader = showGroupInfo.data.groupManager.name
+        val carNickName = showGroupInfo.data.car.carName
 
-        // car 객체 null 체크
-        data.car?.let {
-            binding.tvCarNickname.text = it.name
-        } ?: showError("차량 정보를 가져올 수 없습니다.")
+        binding.tvGroupName.text = groupName
+        binding.tvOneLineDesc.text = description
+        binding.tvGroupLeaderName.text = groupLeader
+        binding.tvCarNickname.text = carNickName
 
-    }
-
-    private fun showError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {

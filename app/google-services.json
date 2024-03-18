@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "267081713505",
+    "project_id": "soda-67305",
+    "storage_bucket": "soda-67305.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267081713505:android:6d3efd65dc76893532e720",
+        "android_client_info": {
+          "package_name": "com.example.gachicar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267081713505-ohcjahbgk42ira0ak8ppqeq4llanrk8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1pP6Ddbhxp-teP6IlEO5MkJr0B--9yf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267081713505-ohcjahbgk42ira0ak8ppqeq4llanrk8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

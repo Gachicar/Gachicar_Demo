@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카카오 로그인하기"
+        android:background="@color/design_default_color_primary"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카카오 로그아웃하기"
+        android:background="@color/design_default_color_primary"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/login_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인 상태를 확인 중입니다..."
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

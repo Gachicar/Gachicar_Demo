@@ -27,6 +27,12 @@
             android:background="@android:color/darker_gray"
             android:layout_marginBottom="15dp"/>
 
+           <ImageView
+               android:id="@+id/splashimg"
+               android:layout_width="300dp"
+               android:layout_height="100dp"
+               android:src="@drawable/gachicarlogo"
+               android:layout_marginBottom="30dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,15 +66,15 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:layout_weight="1" />
-                        <android.widget.Button
-                            android:id="@+id/editGroupName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:background="#99CCFF"
-                            android:text="수정"/>
+<!--                        <android.widget.Button-->
+<!--                            android:id="@+id/editGroupName"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:background="#99CCFF"-->
+<!--                            android:text="수정"/>-->
 
 
                     </LinearLayout>
@@ -87,15 +93,15 @@
                         android:textStyle="normal"
                         android:textColor="@color/black"
                         android:layout_weight="1"/>
-                        <android.widget.Button
-                            android:id="@+id/editGroupDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:background="#99CCFF"
-                            android:text="수정"/>
+<!--                        <android.widget.Button-->
+<!--                            android:id="@+id/editGroupDesc"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:background="#99CCFF"-->
+<!--                            android:text="수정"/>-->
                     </LinearLayout>
                 </LinearLayout>
 
